@@ -4,12 +4,20 @@ block content
   h1= title
   - let items = results
   div(class="container-fluid")
-    div(class="row")
-      each item, index in items  
-        div(class="col-sm-2",onclick=`buy(${index})`)
-          p #{item.jacket_name} 
-          p #{item.cloth}
-          p #{item.cost} 
+  - let destinatio = `dispatch(\"/jacket/create")`
+    button.btn( class="btn-primary ml-1", onclick= destinatio) create
+    div(class="row m-1")
+      each item in items
+        - let destination = `dispatch(\"/jacket/update?id=${item._id}\")`
+        - let destinati = `dispatch(\"/jacket/delete?id=${item._id}\")`
+        - let destinat = `dispatch(\"/jacket/detail?id=${item._id}\")`
+          div(class="row-sm-2", class="m-1") Item #{item.jacket_name}(#{item.cloth}) is #{item.cost}
+          
+          button.btn( class="btn-primary ml-1", onclick= destination) Update
+         
+          button.btn( class="btn-primary ml-1", onclick= destinati) delete
+          button.btn( class="btn-primary ml-1", onclick= destinat) detail
   script.
-    function buy(index) {
-    alert("You purchased item " + index);}
+    function dispatch(path){
+      window.location.href=path
+   }
